@@ -42,6 +42,6 @@ Support notification to telegram, slack, signal etc.
         🠋
 ![alt text](https://github.com/Mister-YR/raspberry/blob/main/raspberry-docker/pi-infrastructure.drawio.png)
 
-# Dprowio link 
+# Draw.io link (app.diagrams.net)
         🠋
 https://drive.google.com/file/d/1Ew-N1OskAtBlMVgrI45GhssDTNo9bOHP/view?usp=sharing
