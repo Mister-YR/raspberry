@@ -1,0 +1,44 @@
+#Before up, check vaiable in .env file
+---
+version: "2.1"
+services:
+  snipe-it:
+    image: lscr.io/linuxserver/snipe-it:latest
+    container_name: snipe-it-pi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kyiv
+      - APP_URL=${APP_URL}
+      - MYSQL_PORT_3306_TCP_ADDR=${MYSQL_PORT_3306_TCP_ADDR}
+      - MYSQL_PORT_3306_TCP_PORT=${MYSQL_PORT_3306_TCP_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - /plex-media/snipe-it:/config
+    env_file:
+    - .env
+    ports:
+      - 8084:80
+# Maria db
+# change MYSQL_ROOT_PASSWORD in .env file
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb-pi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kyiv
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+    - /plex-media/snipe-it/db:/config
+    env_file:
+    - .env
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: container-local

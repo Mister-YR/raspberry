@@ -1,0 +1,20 @@
+# Small disclaimer
+# Pinry is a self-hosted analog of Pinterest
+# Works well with docker
+# Testing with both extensions for Chrome(doesn't work with local address like a - 127.0.0.1:2048 etc, best practice is set up via reverse proxy) and Mozilla(works well) 
+version: "3.3"
+
+services:
+  pinry:
+    image: getpinry/pinry:latest
+    container_name: pinry-pi
+    ports:
+      - 2048:80
+    volumes:
+    # config and file storage
+      - /plex-media/pinry/:/data
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: container-local

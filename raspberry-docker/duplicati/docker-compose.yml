@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+    rclone_backup:
+    # image: lscr.io/linuxserver/duplicati:latest
+        image: lscr.io/linuxserver/duplicati:development
+        container_name: duplicati-pi
+        volumes:
+        # mounted volumes
+            - /plex-media/duplicati/config:/config:rw
+            - /plex-media/duplicati/backups/:/backups
+        # source folder to backups
+            - /plex-media/:/source
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Kyiv
+        ports:
+        #http web port
+            - 8200:8200
+        restart: unless-stopped
+networks:
+  default:
+    external:
+      name: container-localnetworks:
+  default:
+    external:
+      name: container-local

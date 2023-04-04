@@ -1,0 +1,86 @@
+PI - TWO & One display
+# dir create
+mkdir -p /home/pi/.config/chromium-custom-1
+
+mkdir -p /home/pi/.config/chromium-custom-2
+
+# export display
+export DISPLAY=:0
+
+/usr/bin/chromium-browser --user-data-dir="/home/pi/.config/chromium-custom-1"
+
+/usr/bin/chromium-browser --user-data-dir="/home/pi/.config/chromium-custom-2"
+
+mkdir -p ~/.config/lxsession/LXDE-pi
+
+cp /etc/xdg/lxsession/LXDE-pi/autostart ~/.config/lxsession/LXDE-pi
+
+# run from user pi
+su pi
+
+# MAIN CONFIG
+sudo nano ~/.config/lxsession/LXDE-pi/autostart
+
+#@lxpanel --profile LXDE-pi
+
+#@pcmanfm --desktop --profile LXDE-pi
+
+#@xscreensaver -no-splash
+
+@lxpanel --profile LXDE-pi
+
+@pcmanfm --desktop --profile LXDE-pi
+
+# CHANGED
+
+#@xscreensaver -no-splash
+
+@point-rpi
+
+ 
+
+# BEGIN ADDED
+
+ 
+
+@unclutter
+
+@xset s off
+
+@xset s noblank
+
+@xset -dpms
+
+ 
+
+# Browser 1
+
+@/usr/bin/chromium-browser -force-device-scale-factor=1.5 --incognito --window-position=0,0 --kiosk --user-data-dir="/home/pi/.config/chromium-custom-1" https://url
+
+ 
+
+# Browser 2
+
+@/usr/bin/chromium-browser -force-device-scale-factor=1.1 --incognito --window-position=3840,0 --kiosk --user-data-dir="/home/pi/.config/chromium-custom-2" http://url
+
+********************************************************************************* 
+
+PI for one display + Cron
+
+********************************************************************************* 
+
+cd screen-reload/
+
+sudo nano screen0001.sh
+
+DISPLAY=:0 chromium-browser -force-device-scale-factor=1.5 --incoginto --kiosk http://url
+
+sudo nano screen0002.sh
+
+nohup sh ~/screen-reload/screen0001.sh 2000 1>/dev/null 2>/dev/null &
+
+crontab -e
+
+@reboot sleep 30 && ~/screen-reload/screen0002.sh
+
+0 */4 * * * ~/screen-reload/screen0002.sh

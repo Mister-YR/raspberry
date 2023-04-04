@@ -1,0 +1,52 @@
+# compose-file for setup simple samba server
+version: "3.7"
+services:
+  samba:
+    image: dperson/samba
+    container_name: samba-pi
+    stdin_open: true
+    tty: true
+    environment:
+      TZ: 'Europe/Kyiv'
+
+      # advertise shares, default: true, or false (open ports 137, 138)
+      NMBD: "true"
+      # set username & password in row or use .env file
+      USER: "USER;PASSWORD"
+
+      # set the UID for the samba share, default: ""
+      USERID: "0"
+
+      # set the GID for the samba share, default: ""
+      GROUPID: "0"
+
+      # add share name and username in row of use .env file
+      SHARE: "plex-media;/plex-media;yes;no;no;USER;'none';'none';'PI"
+
+      # workgroup/domain name for share
+      WORKGROUP: "PI"
+
+      # if set, disables recycle bin for shares
+      RECYCLE: ""
+
+      # if set, disables SMB2 minimum version
+      # SMB: ""
+
+    networks:
+      - default
+    ports:
+      - "137:137/udp" # required to advertise shares (NMBD)
+      - "138:138/udp" # required to advertise shares (NMBD)
+      - "139:139/tcp" # default smb port
+      - "445:445/tcp" # default smb port
+    read_only: false
+    tmpfs:
+      - /tmp
+    volumes:
+    # pass to my folder etc.
+      - /plex-media/:/plex-media:z # :z allows share to be used by multiple containers
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: container-local

@@ -1,0 +1,84 @@
+# sudo docker logs -f transmission
+version: "3.7"
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission-pi
+    environment:
+      - PUID=1000 
+      - PGID=1000 
+      - TZ=Europe/Kyiv 
+    volumes:
+      - /plex-media/transmission-config:/config 
+      - /plex-media/movie:/downloads/complete
+      - /plex-media/incomplete:/downloads/incomplete
+    ports:
+      - 9091:9091 
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+# plex      
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex-pi
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /plex-media/config:/config
+      - /plex-media/tv:/tv
+      - /plex-media/movie:/movies
+    restart: unless-stopped 
+# portainer
+  portainer:
+    image: portainer/portainer-ce:2.17.0 # Replace 2.11.0 with the latest version.
+    container_name: portainer-pi
+    command: -H unix:///var/run/docker.sock
+    #command: -H tcp://tasks.agent:9001 --tlsskipverify
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /portainer:/data
+    ports:
+      - "9443:9443"
+      - "9000:9000"
+      - "8000:8000"
+    restart: unless-stopped
+#heimdall
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall-pi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/Kyiv
+    volumes:
+      - /heimdall:/config
+    ports:
+      - 8022:80
+      - 8023:443
+    restart: unless-stopped
+  jenkins:
+    image: root/jenkins
+    container_name: jenkins-pi
+    command:
+      - '--httpPort=8081' #custom web port
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/Kyiv
+    volumes:
+      - /jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+    ports:
+      - 8081:8081
+      - 50000:50000
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: container-local
