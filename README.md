@@ -40,4 +40,6 @@ Self-hosted monitoring tool (like a Uptime Robot)
 Support notification to telegram, slack, signal etc.
 # Main diagram  
 # 🠋
+![alt text](https://drive.google.com/file/d/1Ew-N1OskAtBlMVgrI45GhssDTNo9bOHP/view)
+
 https://drive.google.com/file/d/1Ew-N1OskAtBlMVgrI45GhssDTNo9bOHP/view?usp=sharing
