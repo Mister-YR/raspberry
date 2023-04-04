@@ -38,4 +38,6 @@ docker-compose run --rm scrutiny-pi scrutiny-collector-metrics run
 # Uptime-kuma 
 Self-hosted monitoring tool (like a Uptime Robot)
 Support notification to telegram, slack, signal etc.
+# Main diagram  
+# 🠋
 https://drive.google.com/file/d/1Ew-N1OskAtBlMVgrI45GhssDTNo9bOHP/view?usp=sharing
