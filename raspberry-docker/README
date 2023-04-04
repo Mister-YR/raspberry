@@ -1,0 +1,21 @@
+Hello, that's my home-lab on raspberry pi4 (deploy via docker-compose)
+services what I've used:
+- heimdall
+- transmission
+- plex
+- jenkins
+- portainer-pi
+- node_exporter (for prometheus)
+- portainer-agent (for prometheus)
+- cadvisor (for prometheus)
+- prometheus
+- grafana
+- samba
+- scrutiny (for hdd-smart monitoring)
+- duplicati (backup server with GUI)
+- pinry (pinterest analog)
+- uptime-kuma (self-hosted monitoring tool)
+- snipe-it (my local inventory)
+- pihole
+- swag (reverse proxy)
+
