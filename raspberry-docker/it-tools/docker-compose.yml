@@ -1,0 +1,9 @@
+# self hosted it-tools - http://host-ip:5545
+version: '3.3'
+services:
+    it-tools:
+        container_name: it-tools
+        restart: unless-stopped
+        ports:
+            - '5545:80'
+        image: 'corentinth/it-tools:latest'
