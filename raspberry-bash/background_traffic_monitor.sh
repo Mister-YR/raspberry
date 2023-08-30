@@ -17,10 +17,10 @@
 #!/bin/bash
 
 # Set the threshold in terabytes
-threshold_tb="TiB;2.02"
+threshold_tb="TiB;19.5"
 
 while true; do
-    # Get the total bytes of traffic from vnstat
+    # Get the total month TIB of traffic from vnstat
     threshold_check=$(vnstat --oneline | awk '{ print $11 }')
 
     if [[ $threshold_check > $threshold_tb ]]; then
