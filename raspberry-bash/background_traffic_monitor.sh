@@ -12,19 +12,20 @@
 # chmod +x background_traffic_monitor.sh
 ######################################################################
 # .sh name background_traffic_monitor.sh
-#!/bin/bash
-# Set the threshold in terabytes
-threshold_tb=19
+######################################################################
 
-# Calculate the threshold in bytes
-threshold_bytes=$((threshold_tb * 1024 * 1024 * 1024 * 1024))
+#!/bin/bash
+
+# Set the threshold in terabytes
+threshold_tb="TiB;2.02"
 
 while true; do
     # Get the total bytes of traffic from vnstat
-    total_bytes=$(vnstat --oneline | awk '{ print $11 }')
+    threshold_check=$(vnstat --oneline | awk '{ print $11 }')
 
-    if [[ $total_bytes -ge $threshold_bytes ]]; then
+    if [[ $threshold_check > $threshold_tb ]]; then
         echo "Total traffic exceeded $threshold_tb TB. Shutting down..."
+        sleep 120
         shutdown -h now
         exit 0
     fi
