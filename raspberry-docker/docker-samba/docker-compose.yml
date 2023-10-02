@@ -22,6 +22,7 @@ services:
 
       # add share name and username in row of use .env file
       SHARE: "plex-media;/plex-media;yes;no;no;USER;'none';'none';'PI"
+      SHARE: "data-backup;/data-backup;yes;no;no;USER;'none';'none';'PI" # add second drive for samba container
 
       # workgroup/domain name for share
       WORKGROUP: "PI"
@@ -45,6 +46,7 @@ services:
     volumes:
     # pass to my folder etc.
       - /plex-media/:/plex-media:z # :z allows share to be used by multiple containers
+      - /data-backup/:/data-backup:z # add second drive for samba container
     restart: unless-stopped
 networks:
   default:
