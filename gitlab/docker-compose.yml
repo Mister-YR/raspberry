@@ -1,0 +1,21 @@
+version: '3.6'
+
+services:
+  gitlab:
+    image: yrzr/gitlab-ce-arm64v8:latest
+    container_name: gitlab-pi
+    restart: unless-stopped
+    hostname: 'gitlab.path.cc'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.path.cc'
+        gitlab_rails['lfs_enabled'] = true
+    ports:
+      - "8095:80"
+      - "4437:443"
+      - "2227:22"
+    volumes:
+      - /data-path/gitlab:/etc/gitlab
+      - /data-path/gitlab/logs:/var/log/gitlab
+      - /data-path/gitlab/data:/var/opt/gitlab
+    shm_size: '256m'

@@ -1,0 +1,11 @@
+docker exec -it gitlab-runner gitlab-runner register
+
+During the registration process, you'll be asked for:
+
+GitLab URL (e.g., https://gitlab.com)
+Registration token from your GitLab project
+Description of the runner
+Tags (optional)
+Executor type (choose docker)
+Default Docker image (e.g., alpine:latest)
+After registration, a config.toml file will be created inside the container.

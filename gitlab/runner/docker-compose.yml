@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    volumes:
+      - '/data-path/gitlab/runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    environment:
+      - CI_SERVER_URL=http://gitlab.path.cc
+      - RUNNER_TOKEN=tocken-from_gitlab_UI
+      - RUNNER_NAME=gitlab-runner
+      - RUNNER_EXECUTOR=docker
+      - DOCKER_IMAGE=alpine:latest
