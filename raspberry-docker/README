@@ -18,4 +18,5 @@ services what I've used:
 - snipe-it (my local inventory)
 - pihole
 - swag (reverse proxy)
+- gitlab + runner
 
