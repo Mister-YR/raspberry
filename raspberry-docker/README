@@ -19,4 +19,4 @@ services what I've used:
 - pihole
 - swag (reverse proxy)
 - gitlab + runner
-
+- WireGuard for  AllowedIPs (ip & some DNS)

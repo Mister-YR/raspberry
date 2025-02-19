@@ -20,6 +20,7 @@ Services what I've used:
 - Snipe-it (my local inventory)
 - PiHole
 - SWAG (reverse proxy)
+- WireGuard for  AllowedIPs (ip & some DNS) as background service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Small Pinry disclaimer
 Pinry is a self-hosted analog of Pinterest

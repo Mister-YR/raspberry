@@ -4,14 +4,24 @@ services:
   transmission:
     image: lscr.io/linuxserver/transmission
     container_name: transmission-pi
+    network_mode: "host"
     environment:
       - PUID=1000 
       - PGID=1000 
-      - TZ=Europe/Kyiv 
+      - TZ=Europe/Kyiv
+      # tune transmission
+      - TRANSMISSION_WEB_UI=combustion
+      - TRANSMISSION_PEER_PORT=51413
+      - TRANSMISSION_RPC_AUTH_REQUIRED=false
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+      - TRANSMISSION_RATIO_LIMIT=1.0
+      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+      - TRANSMISSION_SPEED_LIMIT_UP=700
     volumes:
       - /plex-media/transmission-config:/config 
       - /plex-media/movie:/downloads/complete
       - /plex-media/incomplete:/downloads/incomplete
+      - /dev/shm/transmission:/cache
     ports:
       - 9091:9091 
       - 51413:51413
@@ -19,29 +29,36 @@ services:
     restart: unless-stopped
 # plex      
   plex:
-    image: lscr.io/linuxserver/plex:latest
+    image: lscr.io/linuxserver/plex:arm64v8-latest
     container_name: plex-pi
-    network_mode: host
+    network_mode: "host"
     environment:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
-      - PLEX_CLAIM= #optional
+      - TZ=Europe/Kyiv
+      - UMASK_SET=022
+      - PLEX_TRANSCODE_PATH=/transcode
+      #- PLEX_CLAIM= #optional
     volumes:
       - /plex-media/config:/config
       - /plex-media/tv:/tv
       - /plex-media/movie:/movies
+      - /plex-media/music:/music
+      - /dev/shm/transcode:/transcode # ram disk
     restart: unless-stopped 
+    tmpfs:
+      - /tmp
 # portainer
   portainer:
-    image: portainer/portainer-ce:2.17.0 # Replace 2.11.0 with the latest version.
+    image: portainer/portainer-ce:2.17.1 # Replace 2.11.0 with the latest version.
     container_name: portainer-pi
     command: -H unix:///var/run/docker.sock
-    #command: -H tcp://tasks.agent:9001 --tlsskipverify
+#    command: -H tcp://tasks.agent:9001 --tlsskipverify
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /portainer:/data
+      - /partainer:/data
     ports:
       - "9443:9443"
       - "9000:9000"
@@ -54,31 +71,28 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/Kyiv
+      - TZ=Etc/Kiev
     volumes:
-      - /heimdall:/config
+      - /plex-media/heimdall:/config
     ports:
       - 8022:80
       - 8023:443
     restart: unless-stopped
+#jenkins
   jenkins:
-    image: root/jenkins
+    image: jenkins/jenkins:lts-jdk11
     container_name: jenkins-pi
     command:
       - '--httpPort=8081' #custom web port
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/Kyiv
+      - TZ=Etc/Kiev
     volumes:
-      - /jenkins:/var/jenkins_home
+      - /plex-media/jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/local/bin/docker:/usr/local/bin/docker
     ports:
       - 8081:8081
       - 50000:50000
     restart: unless-stopped
-networks:
-  default:
-    external:
-      name: container-local

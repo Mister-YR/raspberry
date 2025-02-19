@@ -1,0 +1,29 @@
+      Routing only raspberry_subnet/24 and *.mysuper.domain.com via WG tunnel!
+
+1. Client config example:
+[Interface]
+PrivateKey = secret_key
+Address = client_WG_ip/24
+DNS = local_gate_IP
+
+[Peer]
+PublicKey = secret_key
+PresharedKey = secret_key
+AllowedIPs = raspberry_subnet/24, server_WG_subnet/24, IP_for_main_DNS/32, IP_for_secondary_DNS/32
+Endpoint = 178.158.211.172:51820
+PersistentKeepalive = 25
+
+2. add route via CMD:
+route add raspberry_subnet mask 255.255.255.0 server_WG_IP -p
+
+- check rules:
+route print
+
+3. win DNS client rule (Add-DnsClientNrptRule):
+Add-DnsClientNrptRule -Namespace "mysuper.domain.com" -NameServers local_gate_IP
+
+- check DNS rules:
+Get-DnsClientNrptRule
+
+
+* for every new DNS name, add IPs to AllowedIPs on WG client
