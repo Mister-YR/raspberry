@@ -55,4 +55,5 @@ WireGuard diagram
         🠋
 https://drive.google.com/file/d/1ozEiFu1erGkurDnrB5vBSJVVBuGR-bd_/view?usp=sharing
 
-
+# WG diagram
+![alt text](https://github.com/Mister-YR/raspberry/blob/main/raspberry-docker/WG-diagram.png)
