@@ -47,3 +47,12 @@ Support notification to telegram, slack, signal etc.
 # Draw.io link (app.diagrams.net)
         🠋
 https://drive.google.com/file/d/1Ew-N1OskAtBlMVgrI45GhssDTNo9bOHP/view?usp=sharing
+
+____________________________________________________
+WireGuard diagram
+
+# Draw.io link (app.diagrams.net)
+        🠋
+https://drive.google.com/file/d/1ozEiFu1erGkurDnrB5vBSJVVBuGR-bd_/view?usp=sharing
+
+
